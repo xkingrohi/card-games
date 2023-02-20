@@ -1,4 +1,6 @@
 import random as r
+import os
+from time import sleep
 #card format
 '''
 * * *
@@ -119,6 +121,8 @@ def dealCards(all_c,player,comp,f,c_v):
             f += 1
         else:
             f -= 1
+
+
 ##########
 #vars
 p_c = []
@@ -126,11 +130,63 @@ c_c = []
 all_cards = [cards_values,cardh_values,cardc_values,cardd_values]
 f = 6
 ##########
-#assigns comp & player random cards (26 for each cuz only one deck of 52 cards)
-dealCards(all_cards,p_c,c_c,f,card_values)
-#########
-print(p_c)
-print(c_c)
+def place_Card(v,cards_values,cardh_values,cardc_values,cardd_values):
+    if v[1] == 's':
+        print(cards_values[v])
+    elif v[1] == 'd':
+        print(cardd_values[v])
+    elif v[1] == 'c':
+        print(cardc_values[v])
+    elif v[1] == 'h':
+        print(cardh_values[v])
+
+##########
+def play_Game(pc,cc,cards_values,cardh_values,cardc_values,cardd_values):
+    os.system('cls')
+    pc = set(pc)
+    pc = list(pc)
+    cc = set(cc)
+    cc = list(cc)
+    print("assuming you know the rules, lets start WAR!\n")
+    for i in range(3):
+        print(f"Placing card in {i+1}")
+        sleep(1)
+    for i in range(1):
+        value1 = pc[i]
+        value2 = cc[i]
+        print("\nyou:")
+        place_Card(value1,cards_values, cardh_values, cardc_values, cardd_values)
+        print("-----")
+        print("comp:")
+        place_Card(value2, cards_values, cardh_values, cardc_values, cardd_values)
+
+
+
+##########
+def instructions():
+    os.system('cls')
+    print("Welcome to the long and grueling game of war!\n")
+    print("The objective is to obtain all the cards in your hand")
+    print("To do so, your card must be higher than the comp's card so you can take it ; if not, the comp will "
+          "take your card and will be one step closer to winning")
+    print("\nbtw the 0 is a 10 (i put it like that cuz formating stuff) and 'a' is ace")
+    print("press 'b' to go back")
+    x  = input("")
+    if x == 'b':
+        os.system('cls')
+        return 1
+def Start():
+    start = input("Do you want to play? (i for instructions): ")
+    if start == 'y':
+        dealCards(all_cards,p_c,c_c,f,card_values)
+        play_Game(p_c,c_c,cards_values,cardh_values,cardc_values,cardd_values)
+    elif start == 'i':
+        instructions()
+        Start()
+    else:
+        print("answer format was not read, bye!")
+
+Start()
 
 
 
