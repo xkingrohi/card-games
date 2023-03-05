@@ -1,6 +1,7 @@
 import random as r
 import os
 from time import sleep
+#git push -u origin [branch]
 #card format
 '''
 * * *
