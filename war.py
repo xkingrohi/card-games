@@ -141,24 +141,71 @@ def place_Card(v,cards_values,cardh_values,cardc_values,cardd_values):
         print(cardh_values[v])
 
 ##########
+def checkCard(v,cards_values,cardh_values,cardc_values,cardd_values):
+    list_s = list(cards_values)
+    list_h = list(cardh_values)
+    list_c = list(cardc_values)
+    list_d = list(cardd_values)
+    if v[1] == 's':
+        return list_s.index(v)
+    elif v[1] == 'h':
+        return list_h.index(v)
+    elif v[1] == 'c':
+        return list_c.index(v)
+    elif v[1] == 'd':
+        return list_d.index(v)
+##########
 def play_Game(pc,cc,cards_values,cardh_values,cardc_values,cardd_values):
     os.system('cls')
     pc = set(pc)
     pc = list(pc)
     cc = set(cc)
     cc = list(cc)
-    print("assuming you know the rules, lets start WAR!\n")
-    for i in range(3):
-        print(f"Placing card in {i+1}")
-        sleep(1)
-    for i in range(1):
-        value1 = pc[i]
-        value2 = cc[i]
-        print("\nyou:")
-        place_Card(value1,cards_values, cardh_values, cardc_values, cardd_values)
-        print("-----")
-        print("comp:")
-        place_Card(value2, cards_values, cardh_values, cardc_values, cardd_values)
+    print("\n")
+    while len(pc) != 52 or len(cc) != 52:
+        os.system('cls')
+        for i in range(3):
+            print(f"Placing card in {i+1}")
+            sleep(1)
+        for i in range(1):
+            value1 = pc[i]
+            value2 = cc[i]
+            print("\nyou:")
+            place_Card(value1,cards_values, cardh_values, cardc_values, cardd_values)
+            print("-----")
+            print("comp:")
+            place_Card(value2, cards_values, cardh_values, cardc_values, cardd_values)
+            check1 = checkCard(value1,cards_values,cardh_values,cardc_values,cardd_values)
+            check2 = checkCard(value2,cards_values,cardh_values,cardc_values,cardd_values)
+            if(check1 > check2):
+                print("\nYou have the higher card! You take the comp's card!")
+                x = value1
+                pc.remove(value1)
+                pc.append(x)
+                pc.append(value2)
+                cc.remove(value2)
+            elif(check1 < check2):
+                print("\nThe comp has the higher card! The comp takes your card!")
+                y = value2
+                cc.remove(value2)
+                cc.append(y)
+                cc.append(value1)
+                pc.remove(value1)
+            elif(check1 == check2):
+                print("No change")
+        print("You now have " + str(len(pc)) + " card(s)\n")
+        cont = input("Continue?: ")
+        if(cont == 'y'):
+            pass
+        else:
+            print("Bye!\n")
+            break
+    if(len(pc) == 52):
+        print("You win!")
+    elif(len(cc) == 52):
+        print("Comp win!")
+
+
 
 
 
@@ -176,6 +223,7 @@ def instructions():
         os.system('cls')
         return 1
 def Start():
+    os.system('cls')
     start = input("Do you want to play? (i for instructions): ")
     if start == 'y':
         dealCards(all_cards,p_c,c_c,f,card_values)
@@ -184,7 +232,7 @@ def Start():
         instructions()
         Start()
     else:
-        print("answer format was not read, bye!")
+        print("im guessing thats a no, bye!")
 
 Start()
 
